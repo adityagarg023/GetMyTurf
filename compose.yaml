@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17
+    container_name: getmyturf-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: getmyturf
+      POSTGRES_PASSWORD: dev_password_change_me
+      POSTGRES_DB: getmyturf_dev
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U getmyturf -d getmyturf_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
